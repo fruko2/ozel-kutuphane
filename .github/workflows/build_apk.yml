@@ -12,31 +12,37 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          path: user_code
 
       - name: Set up Java Development Kit (JDK)
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          architecture: x64
 
-      - name: Create Android Project Files
-        run: flutter create . --platforms=android --org=com.ozelkutuphane
+      - name: Bootstrap Flutter App
+        run: |
+          flutter create app_project --org=com.ozelkutuphane
+          cp -r user_code/lib app_project/
+          cp user_code/pubspec.yaml app_project/
 
       - name: Install Dependencies
+        working-directory: app_project
         run: flutter pub get
 
       - name: Build Release APK
+        working-directory: app_project
         run: flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Özel-Kütüphane-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: ozel-kutuphane-apk
+          path: app_project/build/app/outputs/flutter-apk/app-release.apk
           
