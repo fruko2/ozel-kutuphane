@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Java Development Kit (JDK)
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -24,6 +24,9 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
+
+      - name: Create Android Project Files
+        run: flutter create . --platforms=android --org=com.ozelkutuphane
 
       - name: Install Dependencies
         run: flutter pub get
