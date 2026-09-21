@@ -1,0 +1,36 @@
+name: ozel_kutuphane
+description: "Açık Kaynak Kişisel Kütüphane ve Ödünç Takip Uygulaması"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  # Veritabanı ve Yerel Depolama
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  
+  # HTTP ve API (Google Books)
+  http: ^1.1.0
+  
+  # Barkod / ISBN Tarayıcı
+  mobile_scanner: ^5.0.0
+  
+  # Arayüz ve Yardımcılar
+  provider: ^6.1.1
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
