@@ -19,3 +19,17 @@ Uygulama kimliği `com.qderm.kutuphane_web`. İlk açılışta uygulama içi tar
 - Yazar sayfasındaki biyografi ve eser adlarını kontrol edin.
 
 Bu kaynaklar hazırlanmıştır; APK'nın çalışması için gerçek Android cihazda giriş ve kamera denemesi gerekir.
+
+## Derleme yarıda kesilirse
+
+`assembleRelease` sırasında 143 kodu işlemin SIGTERM ile, terminalde “Sinyal 9” görünmesi ise terminal işleminin SIGKILL ile sonlandığını gösterir. İkisi de tek başına bellek yetersizliğini kanıtlamaz. Betik Gradle belleğini ve eşzamanlı çalışan iş sayısını sınırlar. İlk derleme indirmeler nedeniyle uzun sürebilir; terminal açık kalmalıdır. İşlem yine kesilirse şu çıktıları paylaşın:
+
+```bash
+cd ~/ozel-kutuphane
+free -h
+swapon --show
+df -h .
+tail -n 60 apk_web/build_app.log
+```
+
+`git pull` ile güncel betiği aldıktan sonra yeniden `bash apk_web/build_app.sh` çalıştırabilirsiniz. Betik mevcut derleme önbelleğini silmez.
