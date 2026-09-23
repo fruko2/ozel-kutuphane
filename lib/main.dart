@@ -1,41 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const OzelKutuphaneApp());
+import 'core/theme/app_theme.dart';
+import 'data/database/app_database.dart';
+import 'data/services/auth_sync_service.dart';
+import 'data/services/book_lookup_service.dart';
+import 'presentation/providers/library_provider.dart';
+import 'presentation/screens/home_shell.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = AppDatabase();
+  final authSync = AuthSyncService(database);
+  await authSync.initialize();
+  runApp(KutuphaneApp(database: database, authSync: authSync));
 }
+class KutuphaneApp extends StatelessWidget {
+  const KutuphaneApp({required this.database, required this.authSync, super.key});
 
-class OzelKutuphaneApp extends StatelessWidget {
-  const OzelKutuphaneApp({super.key});
+  final AppDatabase database;
+  final AuthSyncService authSync;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Özel Kütüphane',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Özel Kütüphane'),
-          backgroundColor: Colors.deepPurpleContainer,
-        ),
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.menu_book_rounded, size: 80, color: Colors.deepPurple),
-              SizedBox(height: 16),
-              Text(
-                'Kütüphane Uygulamasına Hoş Geldiniz!',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('Otomatik derleme ile oluşturulan ilk sürüm.'),
-            ],
-          ),
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => LibraryProvider(
+        database: database,
+        lookupService: BookLookupService(),
+        authSync: authSync,
+      )..initialize(),
+      child: MaterialApp(
+        title: 'Kütüphane-i Şahsî',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        locale: const Locale('tr', 'TR'),
+        supportedLocales: const [Locale('tr', 'TR')],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        home: const HomeShell(),
       ),
     );
   }
