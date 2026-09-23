@@ -14,7 +14,7 @@ fi
 cp scripts/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 flutter pub get
 flutter analyze
-flutter test
+flutter test test/isbn_test.dart
 flutter build apk --release --target-platform android-arm64 --no-tree-shake-icons
 
 APK="$PROJECT_DIR/build/app/outputs/flutter-apk/app-release.apk"
