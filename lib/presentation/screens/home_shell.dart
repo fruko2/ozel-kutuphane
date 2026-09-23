@@ -165,7 +165,7 @@ class _AccountPage extends StatelessWidget {
                 FilledButton.icon(onPressed: () => _run(context, provider.syncNow), icon: const Icon(Icons.sync), label: const Text('Şimdi eşitle')),
                 TextButton(onPressed: provider.signOut, child: const Text('Oturumu kapat')),
               ],
-            ])),
+            ]))),
             const Card(child: Padding(padding: EdgeInsets.all(18), child: Text('Kayıtlar öncelikle cihazdaki SQLite veritabanında muhafaza edilir. İnternet ve Google hesabı bulunduğunda web kütüphanesiyle eşitlenir.', style: TextStyle(height: 1.5)))),
           ]),
         );
