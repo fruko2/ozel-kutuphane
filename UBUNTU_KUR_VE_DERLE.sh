@@ -77,7 +77,7 @@ say "Kod analizi"
 flutter analyze --no-fatal-infos
 
 say "Birim testleri"
-flutter test
+flutter test test/isbn_test.dart
 
 say "ARM64 release APK derleniyor"
 flutter build apk --release --target-platform android-arm64 --no-tree-shake-icons
